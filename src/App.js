@@ -34,7 +34,7 @@ function App() {
            <NavLink to='/'>Home</NavLink>
            <NavLink to='/about'>About</NavLink>
            <NavLink to='/contact'>Contact</NavLink>
-           <NavLink to='/auth/login'>Logout</NavLink>
+           <NavLink to='/auth/login' onClick={() => setLoggedIn(false)}>Logout</NavLink>
            
          </ul> : null
            
@@ -44,16 +44,18 @@ function App() {
 
       <div className='p-10'>
           <Routes>
+
             {/* elements inside can only be accessed if user is logged in  */}
             <Route path='/' element={<PrivateRoute loggedIn={loggedIn}/>}>
+
               <Route index element={<Navigate to='home' replace={true}/>}/>
               <Route path='home' element={<Home username={username}/>} />
               <Route path='about' element={<About/>}/>
               <Route path='contact' element={<Contact/>}/>
+
             </Route>
             
             <Route path='/auth/login' element={<Login loginFunc={loginFunc}/>}/>
-          
           </Routes>
         
       </div>
