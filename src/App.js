@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import PrivateRoute from './utils/PrivateRoute';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -38,20 +40,42 @@ function App() {
         {
           component === 1 ? null :
           <ul className='flex items-center justify-end gap-4 mx-4 h-full text-4xl font-thin'>
-            <li className='cursor-pointer' onClick={() => handleComponent(2)}>Home</li>
-            <li className='cursor-pointer' onClick={() => handleComponent(3)}>About</li>
-            <li className='cursor-pointer' onClick={() => handleComponent(4)}>Contact</li>
-            <li className='cursor-pointer' onClick={() => handleComponent(1)}>Logout</li>
+            <NavLink to='/'>Home</NavLink>
+            <NavLink to='/about'>About</NavLink>
+            <NavLink to='/contact'>Contact</NavLink>
+            <NavLink to='/login'>Logout</NavLink>
+            
           </ul>
         }
       </header>
       {/* conditional rendering of components */}
-      <div className='p-10'>
+      {/* <div className='p-10'>
         {!loggedIn && component === 1 ? <Login loginFunc={loginFunc}/> : null}
         {component === 2 && <Home username={username}/>}
         {component === 3 && <About />}
         {component === 4 && <Contact/>}
+      </div> */}
+
+      <div className='p-10'>
+        <BrowserRouter >
+
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/contact">Contact</NavLink>
+          <Routes>
+            {/* elements inside can only be accessed if user is logged in  */}
+            <Route path='/' element={<PrivateRoute loggedIn={loggedIn}/>}>
+              <Route path='/' index element={<Home username={username}/>}/>
+              <Route path='/about' element={<About/>}/>
+              <Route path='/contact' element={<Contact/>}/>
+            </Route>
+            
+            <Route path='/login' element={<Login loginFunc={loginFunc}/>}/>
+          
+          </Routes>
+        </BrowserRouter>
       </div>
+      
     </div>
   );
 }
