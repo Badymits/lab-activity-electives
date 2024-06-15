@@ -43,10 +43,11 @@ function App() {
 
       <div className='p-10'>
           <Routes>
-              <Route path='/login' element={<Login loginFunc={loginFunc}/>}/>
+              
               <Route path='/' element={<Home username={username} loggedIn={loggedIn}/>} />
               <Route path='/about' element={<About loggedIn={loggedIn}/>}/>
               <Route path='/contact' element={<Contact loggedIn={loggedIn}/>}/>
+              <Route path='/login' element={<Login loginFunc={loginFunc}/>}/>
               <Route path='/*' element={<Navigate to='/'/>}/>
               
           </Routes>
