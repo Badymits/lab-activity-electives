@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import { Routes, Route, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, NavLink, useLocation, useNavigate, Navigate } from 'react-router-dom';
 
 
 function App() {
@@ -43,11 +43,11 @@ function App() {
 
       <div className='p-10'>
           <Routes>
-              <Route index path='/login' element={<Login loginFunc={loginFunc}/>}/>
-              <Route path='/' element={<Home username={username}/>} />
-              <Route path='/about' element={<About/>}/>
-              <Route path='/contact' element={<Contact/>}/>
-
+              <Route path='/login' element={<Login loginFunc={loginFunc}/>}/>
+              <Route path='/' element={<Home username={username} loggedIn={loggedIn}/>} />
+              <Route path='/about' element={<About loggedIn={loggedIn}/>}/>
+              <Route path='/contact' element={<Contact loggedIn={loggedIn}/>}/>
+              <Route path='/*' element={<Navigate to='/'/>}/>
               
           </Routes>
       </div>
