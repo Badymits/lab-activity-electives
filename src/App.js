@@ -30,14 +30,14 @@ function App() {
       <header className={loggedIn ? 'w-full h-[70px] bg-gray-400' : 'hidden'}>
         {
           urlName !== '/login' && loggedIn === true ? 
-          null : 
-           <ul className='flex items-center justify-end gap-4 mx-4 h-full text-4xl font-thin'>
+          <ul className='flex items-center justify-end gap-4 mx-4 h-full text-4xl font-thin'>
            <NavLink to='/'>Home</NavLink>
            <NavLink to='/about'>About</NavLink>
            <NavLink to='/contact'>Contact</NavLink>
            <NavLink to='/auth/login'>Logout</NavLink>
            
-         </ul>
+         </ul> : null
+           
           
         }
       </header>
