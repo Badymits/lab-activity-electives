@@ -1,8 +1,7 @@
-import React,{useContext, useState} from "react";
-import { Context } from "../context/Context";
+import React,{ useState} from "react";
 
-const Login = () => {
-    let { loginUser } = useContext(Context)
+const Login = ({ loginFunc }) => {
+    
     const users = [
         { username: 'user1', password: 'pass1' },
         { username: 'user2', password: 'pass2' }
@@ -17,11 +16,11 @@ const Login = () => {
         // username and password must match, including the respective pair
         if (username === users[0].username && password === users[0].password){
             alert('login')
-            loginUser(username)
+            loginFunc(username)
         }
         else if (username === users[1].username && password === users[1].password){
             alert('login')
-            loginUser(username)
+            loginFunc(username)
         } else {
             alert('invalid credentials')
         }

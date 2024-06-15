@@ -1,37 +1,39 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import { Routes, Route, NavLink, useLocation, Navigate } from 'react-router-dom';
-import PrivateRoute from './utils/PrivateRoute';
-import { Context } from './context/Context';
+import { Routes, Route, NavLink, useLocation, useNavigate } from 'react-router-dom';
+
 
 function App() {
 
-  let { user } = useContext(Context)
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [username, setUsername] = useState('') // to be used for homepage
 
-  useEffect(() => {
+  const navigate = useNavigate();
+
+  const loginFunc = (user) => {
+    setLoggedIn(true)
     setUsername(user)
-  }, [user])
+    navigate('/')
+  }
+
   // for header nav links
   const urlName = useLocation().pathname
-  console.log(user)
 
   return (
     <div className="bg-gray-200 h-screen">
       <header className={loggedIn ? 'w-full h-[70px] bg-gray-400' : 'hidden'}>
         {
-          urlName !== '/login' && user === true ? 
+          urlName !== '/login' && loggedIn === true ? 
           <ul className='flex items-center justify-end gap-4 mx-4 h-full text-4xl font-thin'>
            <NavLink to='/'>Home</NavLink>
            <NavLink to='/about'>About</NavLink>
            <NavLink to='/contact'>Contact</NavLink>
-           <NavLink to='/auth/login' onClick={() => setLoggedIn(false)}>Logout</NavLink>
+           <NavLink to='/login' onClick={() => setLoggedIn(false)}>Logout</NavLink>
            
          </ul> : null
            
@@ -41,18 +43,12 @@ function App() {
 
       <div className='p-10'>
           <Routes>
+              <Route index path='/login' element={<Login loginFunc={loginFunc}/>}/>
+              <Route path='/' element={<Home username={username}/>} />
+              <Route path='/about' element={<About/>}/>
+              <Route path='/contact' element={<Contact/>}/>
 
-            {/* elements inside can only be accessed if user is logged in  */}
-            <Route path='/' element={<PrivateRoute loggedIn={loggedIn}/>}>
-
-              <Route index element={<Navigate to='home' replace={true}/>} />
-              <Route path='home' element={<Home username={username}/>} />
-              <Route path='about' element={<About/>}/>
-              <Route path='contact' element={<Contact/>}/>
-
-            </Route>
-
-            <Route path='/auth/login' element={<Login/>}/>
+              
           </Routes>
       </div>
       
